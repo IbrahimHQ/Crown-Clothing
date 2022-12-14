@@ -5,6 +5,7 @@ import App from './App';
 import { UserProvider } from './contexts/users.contexts';
 import { ProductsProvider } from './contexts/products.contexts';
 import { DropdownProvider } from './contexts/dropdown.context';
+import { CartProvider } from './contexts/cart.context';
 import './index.scss';
 import reportWebVitals from './reportWebVitals';
 
@@ -15,7 +16,9 @@ root.render(
       <UserProvider>
         <ProductsProvider> {/* placed inside UserProvider so products can fetch user info */}
           <DropdownProvider>
-            <App />
+            <CartProvider>
+              <App />
+            </CartProvider>
           </DropdownProvider>
         </ProductsProvider>
       </UserProvider>
