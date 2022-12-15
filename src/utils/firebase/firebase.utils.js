@@ -15,7 +15,11 @@ import {
     getFirestore, 
     doc, 
     getDoc, 
-    setDoc 
+    setDoc,
+    collection,
+    writeBatch,
+    query,
+    getDocs
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -34,10 +38,34 @@ googleProvider.setCustomParameters({
     prompt: "select_account"
 });
 
-export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup (auth, googleProvider);
-export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
+export const auth = getAuth(firebaseApp); //see firebase docs
 export const db = getFirestore();
+
+//export add data functions
+export const addCollectionandDocuments = async (collectionKey, objectsToAdd, id) => { 
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db);
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object[id].toLowerCase()); //creates new doc ref where id is passed in
+        batch.set(docRef, object); //sets ref with the object's id to the object
+    })
+    await batch.commit(); //will fire off the batch
+    console.log('done');
+};
+
+//export get data functions
+export const getCategoriesandDocuments = async () => {
+    const collectionRef = collection(db, 'categories');
+    const q = query(collectionRef);
+    const querySnapshot = await getDocs(q);
+    const categoryMap = querySnapshot.docs.reduce((accumulator, docSnapshot) => {
+        const { title, items } = docSnapshot.data();
+        accumulator[title.toLowerCase()] = items;
+        return accumulator;
+    }, {});
+    return categoryMap;
+}
+
 
 export const createUserDocfromAuth = async (userAuth, additionalInfo = {}) => {
     if (!userAuth) return; //prevents creating user data if no user is entered
@@ -67,6 +95,9 @@ export const createAuthUserWithEmailAndPassword = async (email, password) => {
     return await createUserWithEmailAndPassword (auth, email, password);
 }
 
+//export sign-in & sign-out functions
+export const signInWithGooglePopup = () => signInWithPopup (auth, googleProvider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleProvider);
 export const loginAuthUserWithEmailandPassword = async (email, password) => {
     if (!email || !password) return;
     return await signInWithEmailAndPassword (auth, email, password);
