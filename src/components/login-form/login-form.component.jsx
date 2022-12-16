@@ -7,8 +7,8 @@ import {
     loginAuthUserWithEmailandPassword 
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
-import Button from "../button/button.component";
-import './login-form.styles.scss';
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
+import {LoginContainerStyled, ButtonsContainerStyled} from './login-form.styles';
 //import { UserContext } from "../../contexts/users.contexts";
 /* import { useEffect } from "react";
 import { getRedirectResult } from 'firebase/auth';
@@ -73,19 +73,25 @@ const LoginForm = () => {
     } */
 
     return (
-        <div className='login-container'>
+        <LoginContainerStyled>
             <h2>Already have an account?</h2>
             <span>Login here!</span>
             <form onSubmit={handleSubmit}>
                 <FormInput label='Email' type='email' required onChange={handleChange} name='email' value={email}/>
                 <FormInput label='Password' type='password' required onChange={handleChange} name='password' value={password}/>
-                <div className="buttons-container">
+                <ButtonsContainerStyled>
                     <Button type='submit'>Login</Button>
-                    <Button type='button' onClick={loginWithGooglePopup} buttonType='google'>Login with Google</Button>
-                </div>
+                    <Button 
+                        type='button' 
+                        onClick={loginWithGooglePopup} 
+                        buttonType={BUTTON_TYPE_CLASSES.google}
+                    >
+                        Login with Google
+                    </Button>
+                </ButtonsContainerStyled>
 
             </form>
-        </div>
+        </LoginContainerStyled>
     );
 }
 

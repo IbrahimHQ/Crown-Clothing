@@ -6,7 +6,7 @@ import CartDropdown from '../../cart-dropdown/cart-dropdown.components';
 import { UserContext } from '../../../contexts/users.contexts';
 import { DropdownContext } from '../../../contexts/dropdown.context';
 import { signOutUser } from '../../../utils/firebase/firebase.utils';
-import './navigation.styles.scss';
+import { NavigationContainer, NavLinksContainer, LogoContainer, NavLink} from './navigation.styles';
 
 const NavBar = () => {
     const { currentUser, setCurrentUser } = useContext(UserContext);
@@ -19,21 +19,21 @@ const NavBar = () => {
 
     return (
       <Fragment>
-        <div className='navigation'>
-            <Link className='logo-container' to='/'>
+        <NavigationContainer>
+            <LogoContainer to='/'>
                 <CrownLogo className='logo' />
-            </Link>
-            <div className='nav-links-container'>
-              <Link className='nav-link' to='/shop'>
+            </LogoContainer>
+            <NavLinksContainer>
+              <NavLink to='/shop'>
                 SHOP
-              </Link>
-              {currentUser ? (<span className='nav-link' onClick={signOutUser}>SIGN OUT</span>)
-                : (<Link className='nav-link' to='/auth'>SIGN IN</Link>)
+              </NavLink>
+              {currentUser ? (<NavLink as='span' onClick={signOutUser}>SIGN OUT</NavLink>)
+                : (<NavLink to='/auth'>SIGN IN</NavLink>)
               }
               <CartIcon />
-            </div>
+            </NavLinksContainer>
             {openCart && <CartDropdown />} {/* //double ampersand means that if both values are true, the last item will return, note: all components are true */}
-        </div>
+        </NavigationContainer>
         <Outlet />
       </Fragment>
     );
