@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export const PreviewStyled = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  column-gap: 20px;
+  column-gap: 23px;
 `;
 
 export const TitleStyled = styled(Link)`
