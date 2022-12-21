@@ -12,7 +12,8 @@ import { CartProvider } from './contexts/cart.context';
 
 import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from './utils/stripe/stripe.utils';
-import './index.scss';
+
+import { GlobalStyles } from './global.styles';
 //import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -24,6 +25,7 @@ root.render(
           <DropdownProvider>
             <CartProvider>
               <Elements stripe={stripePromise}>
+                <GlobalStyles />
                 <App />
               </Elements>
             </CartProvider>
