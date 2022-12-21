@@ -5,7 +5,6 @@ import CategoryPreview from "../../category-preview/category-preview.component";
 
 const CategoriesPreview = () => {
     const { categoriesMap } = useContext(CategoriesContext);
-    console.log(categoriesMap);
     const keysArray = Object.keys(categoriesMap) //object.keys allows you to pass in an object, returns an array of the keys
     return (
         <Fragment>
