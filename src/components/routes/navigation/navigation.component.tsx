@@ -1,4 +1,4 @@
-import { Fragment, useContext } from 'react'; //Fragment --> component that renders as nothing to avoid a wrapping div
+import { Fragment, useContext } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { ReactComponent as CrownLogo } from '../../../assets/crown.svg';
 import CartIcon from '../../cart-icon/cart-icon.components';
@@ -12,7 +12,7 @@ const NavBar = () => {
     const { currentUser, setCurrentUser } = useContext(UserContext);
     const { openCart } = useContext(DropdownContext);
 
-/*     const signOutHandler = async () => {
+/*  const signOutHandler = async () => {
       signOutUser();
       setCurrentUser(null);
     } */

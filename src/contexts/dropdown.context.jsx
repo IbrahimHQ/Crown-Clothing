@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 
 export const DropdownContext = createContext ({
     openCart: false,
-    setOpenCart: () => {}
+    setOpenCart: (boolean) => {}
 });
 
 export const DropdownProvider = ({ children }) => {

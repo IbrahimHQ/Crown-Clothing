@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from "react";
 //import SHOP_DATA from '../shop-data.js';
-import { addCollectionandDocuments, getCategoriesandDocuments } from "../utils/firebase/firebase.utils.js";
+import { addCollectionandDocuments, getCategoriesandDocuments } from "../utils/firebase/firebase.utils";
 
 export const CategoriesContext = createContext({
     categoriesMap: []
@@ -22,8 +22,6 @@ export const CategoriesProvider = ({ children }) => {
         } // an async function should never be passed into useEffect, instead create a new async function inside of an anonymous callback
         getCategoriesMap(); // then call the wrapping function
     }, []);
-
-
     const value = { categoriesMap };
     return (
         <CategoriesContext.Provider value={value}>{ children }</CategoriesContext.Provider>

@@ -34,7 +34,7 @@ const categories = [
     },
 ];
 
-const Directory = () => {
+const HomeDirectory = () => {
     
     return (
         <DirectoryContainer>
@@ -45,4 +45,4 @@ const Directory = () => {
     )
 }
 
-export default Directory;
+export default HomeDirectory;

@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, FormEvent, ChangeEvent } from "react";
 import { 
     auth, 
     signInWithGooglePopup, 
@@ -9,6 +9,7 @@ import {
 import FormInput from "../form-input/form-input.component";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import {LoginContainerStyled, ButtonsContainerStyled} from './login-form.styles';
+import { AuthError, AuthErrorCodes } from "firebase/auth";
 //import { UserContext } from "../../contexts/users.contexts";
 /* import { useEffect } from "react";
 import { getRedirectResult } from 'firebase/auth';
@@ -32,21 +33,21 @@ const LoginForm = () => {
         setFormFields (defaultFormFields);
     }
 
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             await loginAuthUserWithEmailandPassword (email, password);
             resetFormFields();
         } catch (error) {
-            switch (error.code) {
-                case 'auth/wrong-password': alert ('Incorrect Password'); break
-                case 'auth/user-not-found': alert ('Incorrect Email'); break
-                default: console.log(error)
-            }
-        }
-    }
+            switch ((error as AuthError).code) {
+                case AuthErrorCodes.INVALID_PASSWORD : alert ('Incorrect Password'); break
+                case AuthErrorCodes.USER_DELETED : alert ('No User with this Email'); break
+                default: console.log(error);
+            };
+        };
+    };
 
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
         setFormFields({...formFields, [name]: value});
     };

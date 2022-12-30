@@ -1,5 +1,4 @@
 import { CartIconContainer, ShoppingIcon, ItemCount} from './cart-icon.styles';
-//import { ReactComponent as ShoppingIcon} from '../../assets/shopping-bag.svg'; --> moved into styles
 import { useContext } from 'react';
 import { DropdownContext } from '../../contexts/dropdown.context';
 import { CartContext } from '../../contexts/cart.context';

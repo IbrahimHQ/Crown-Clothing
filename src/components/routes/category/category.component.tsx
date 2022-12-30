@@ -4,8 +4,12 @@ import { useParams } from 'react-router-dom';
 import ProductCard from '../../product-card/product-card.components';
 import { CategoryContainerStyled, CategoryTitleStyled} from './category.styles';
 
+type CategoryRouteParams = {
+    category: string;
+}
+
 const Category = () => {
-    const { category } = useParams();
+    const { category } = useParams<keyof CategoryRouteParams>() as CategoryRouteParams;
     const { categoriesMap } = useContext(CategoriesContext);
 
     const [products, setProducts] = useState (categoriesMap[category]);

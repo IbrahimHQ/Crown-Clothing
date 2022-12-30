@@ -1,5 +1,4 @@
-//require is an older syntax for import
-require("dotenv").config();
+require("dotenv").config(); //require is an older syntax for import
 const stripe = require("stripe")(`${process.env.STRIPE_SECRET_KEY}`)
 
 //exports.name is old syntax for exporting a function
