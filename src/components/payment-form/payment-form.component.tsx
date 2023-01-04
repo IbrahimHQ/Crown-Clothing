@@ -3,8 +3,10 @@ import { useContext } from 'react';
 import { CartContext } from '../../contexts/cart.context';
 import { UserContext } from '../../contexts/users.contexts';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { StripeCardElement } from '@stripe/stripe-js';
 import { BUTTON_TYPE_CLASSES } from '../button/button.component';
 import { PaymentFormContainer, FormContainer, PaymentButton } from './payment-form.styles';
+import { FormEvent } from 'react';
 
 const PaymentForm = () => {
     const stripe = useStripe();
@@ -14,7 +16,7 @@ const PaymentForm = () => {
     const { currentUser } = useContext(UserContext);
     const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
 
-    const handlePayment = async (e) => {
+    const handlePayment = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if(!stripe || !elements) {
@@ -33,11 +35,16 @@ const PaymentForm = () => {
         
         const { paymentIntent: { client_secret } } = response; //destructuring client secret from paymentIntent object off response
 
+        //type guard againt null type
+        const ifValidCard = (card: StripeCardElement | null): card is StripeCardElement => card !== null;
+        const cardDetails = elements.getElement(CardElement);
+        if(!ifValidCard(cardDetails)) return;
+
         const paymentResult = await stripe.confirmCardPayment(client_secret, {
             payment_method: {
-                card: elements.getElement(CardElement),
+                card: cardDetails,
                 billing_details: {
-                    name: currentUser ? currentUser.displayName : 'Guest'
+                    name: currentUser ? currentUser.displayName as string : 'Guest'
                 }
             }
         });

@@ -1,18 +1,24 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, PropsWithChildren } from "react";
 import { onAuthStateChangedListener, createUserDocfromAuth } from "../utils/firebase/firebase.utils";
+import { User } from "firebase/auth";
+import { FC } from "react";
 
-export const UserContext = createContext({
+type UserContextType = {
+    currentUser: User | null
+};
+
+export const UserContext = createContext<UserContextType>({
     currentUser: null,
-    setCurrentUser: () => null,
 });
 
-export const UserProvider = ({ children }) => {
-    const [currentUser, setCurrentUser] = useState (null);
+export const UserProvider: FC<PropsWithChildren> = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
     const value = { currentUser, setCurrentUser };
 
     useEffect (() => { 
         const unsubscribe = onAuthStateChangedListener((user) => {
-            if(user) {createUserDocfromAuth(user)};
+            if(user === null) return
+            createUserDocfromAuth(user);
             setCurrentUser(user);
         });
         return unsubscribe

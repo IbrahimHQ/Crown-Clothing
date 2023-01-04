@@ -7,7 +7,7 @@ export const CartContext = createContext ({
     subtractItem: () => {},
     removeItem: () => {},
     totalQuantity: null,
-    totalCost: null
+    totalCost: 0
 });
 
 const addCartItem = (cartItems, productToAdd) => {

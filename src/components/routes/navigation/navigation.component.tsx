@@ -9,7 +9,7 @@ import { signOutUser } from '../../../utils/firebase/firebase.utils';
 import { NavigationContainer, NavLinksContainer, LogoContainer, NavLink} from './navigation.styles';
 
 const NavBar = () => {
-    const { currentUser, setCurrentUser } = useContext(UserContext);
+    const { currentUser } = useContext(UserContext);
     const { openCart } = useContext(DropdownContext);
 
 /*  const signOutHandler = async () => {

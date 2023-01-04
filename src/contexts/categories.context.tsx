@@ -1,12 +1,18 @@
-import { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, ChildContextProvider, PropsWithChildren } from "react";
 //import SHOP_DATA from '../shop-data.js';
 import { addCollectionandDocuments, getCategoriesandDocuments } from "../utils/firebase/firebase.utils";
+import { CategoryMap} from "./category.types";
+import { FC } from 'react';
 
-export const CategoriesContext = createContext({
-    categoriesMap: []
+type CategoriesContextType = {
+    categoriesMap: CategoryMap
+};
+
+export const CategoriesContext = createContext<CategoriesContextType>({
+    categoriesMap: {} as CategoryMap
 });
 
-export const CategoriesProvider = ({ children }) => {
+export const CategoriesProvider: FC<PropsWithChildren> = ({ children }) => {
     const [categoriesMap, setCategoriesMap] = useState({});
 
     //used to add categories to firestore, but deleted to avoid resetting categories --> this is not normally done on frontend

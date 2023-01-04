@@ -8,18 +8,18 @@ type CategoryRouteParams = {
     category: string;
 }
 
-const Category = () => {
-    const { category } = useParams<keyof CategoryRouteParams>() as CategoryRouteParams;
+const CategoryPage = () => {
+    const { category } = useParams<keyof CategoryRouteParams>() as CategoryRouteParams; //key of allows for other parameters from shop page to come into category as well
     const { categoriesMap } = useContext(CategoriesContext);
 
-    const [products, setProducts] = useState (categoriesMap[category]);
+    const [products, setProducts] = useState(categoriesMap[category]);
     useEffect(() => {
         setProducts(categoriesMap[category])
-    }, [category, categoriesMap])
+    }, [category, categoriesMap]) //so that product only resets with category or map changes
 
     useEffect (() => {
         window.scrollTo(0,0);
-    }, []); //resets scroll to top of page 
+    }, []); //resets scroll to top of page when page renders
 
     return (
         <Fragment>
@@ -35,4 +35,4 @@ const Category = () => {
     )
 };
 
-export default Category;
+export default CategoryPage;
