@@ -5,7 +5,7 @@ export const CategoriesContext = createContext({
     categoriesMap: {}
 });
 
-const COLLECTIONS = gql`
+const GET_COLLECTIONS = gql`
     query GetCollections{
         collections {
             id
@@ -21,7 +21,7 @@ const COLLECTIONS = gql`
 `;
 
 export const CategoriesProvider = ({ children }) => {
-    const {loading, error, data} = useQuery(COLLECTIONS);
+    const {loading, error, data} = useQuery(GET_COLLECTIONS);
     const [categoriesMap, setCategoriesMap] = useState({});
     console.log("data:", data)
 

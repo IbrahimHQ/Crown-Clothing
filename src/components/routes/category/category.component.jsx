@@ -1,19 +1,62 @@
-import { useContext, useState, useEffect, Fragment } from 'react';
-import { CategoriesContext } from '../../../contexts/categories.context';
+import { useState, useEffect, Fragment } from 'react';
 import { useParams } from 'react-router-dom';
+import { gql, useQuery, useMutation} from '@apollo/client';
+
 import ProductCard from '../../product-card/product-card.components';
 import Spinner from '../../spinner/spinner.component';
 import { CategoryContainerStyled, CategoryTitleStyled} from './category.styles';
 
+const GET_CATEGORY = gql`
+    query($title: String!) {
+        getCollectionsByTitle(title: $title) {
+            id
+            title
+            items {
+                id
+                name
+                price
+                imageUrl
+            }
+        }
+    }
+`;
+
+/* TO MUTATE CATEGORY DATA
+const SET_CATEGORY = gql`
+    mutation($category: Category!) {
+        addCategory(category: $category) {  """ this mutation is defined in schema """
+            id
+            title
+            items {
+                id
+                name
+                price
+                imageUrl
+            }
+        }
+    }
+`;*/
 
 const CategoryPage = () => {
     const { category } = useParams();
-    const { categoriesMap, loading } = useContext(CategoriesContext);
+    const [products, setProducts] = useState([]);
 
-    const [products, setProducts] = useState(categoriesMap[category]);
+    const {loading, error, data} = useQuery(GET_CATEGORY, {
+        variables: {
+            title: category
+        }
+    });
+
+/*  const [ addCategory, {loading, error, data} ] = useMutation(SET_CATEGORY);
+    addCategory({ variables: { category: categoryObject } }); //categoryObject is passed in from elsewhere
+ */
+
     useEffect(() => {
-        setProducts(categoriesMap[category])
-    }, [category, categoriesMap]) //so that product only resets with category or map changes
+        if (data) {
+            const { getCollectionsByTitle: { items }} = data;
+            setProducts(items);
+        }
+    }, [category, data]) //transform data to pass into useState
 
     useEffect (() => {
         window.scrollTo(0,0);
