@@ -12,26 +12,34 @@ import { CartProvider } from './contexts/cart.context';
 
 import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from './utils/stripe/stripe.utils';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
 import { GlobalStyles } from './global.styles';
-//import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './reportWebVitals';
+
+const client = new ApolloClient ({
+  uri: 'https://crwn-clothing.com/',
+  cache: new InMemoryCache()
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <UserProvider>
-        <CategoriesProvider> {/* placed inside UserProvider so products can fetch user info */}
-          <DropdownProvider>
-            <CartProvider>
-              <Elements stripe={stripePromise}>
-                <GlobalStyles />
-                <App />
-              </Elements>
-            </CartProvider>
-          </DropdownProvider>
-        </CategoriesProvider>
-      </UserProvider>
-    </BrowserRouter>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <UserProvider>
+          <CategoriesProvider> {/* placed inside UserProvider so products can fetch user info */}
+            <DropdownProvider>
+              <CartProvider>
+                <Elements stripe={stripePromise}>
+                  <GlobalStyles />
+                  <App />
+                </Elements>
+              </CartProvider>
+            </DropdownProvider>
+          </CategoriesProvider>
+        </UserProvider>
+      </BrowserRouter>
+    </ApolloProvider>
   </React.StrictMode>
 );
