@@ -5,9 +5,9 @@ import {
     TotalStyled
 } from './checkout.styles';
 import { useContext } from 'react';
-import { CartContext } from '../../../contexts/cart.context';
-import CheckoutItem from '../../checkout-item/checkout-item.component';
-import PaymentForm from '../../payment-form/payment-form.component';
+import { CartContext } from '../../contexts/cart.context';
+import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import PaymentForm from '../../components/payment-form/payment-form.component';
 
 const Checkout = () => {
     const { cartItems, totalCost } = useContext(CartContext);
