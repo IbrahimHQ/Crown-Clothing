@@ -16,7 +16,7 @@ const PaymentForm = () => {
     const { currentUser } = useContext(UserContext);
     const [isPaymentProcessing, setIsPaymentProcessing] = useState(false);
 
-    const handlePayment = async (e: FormEvent<HTMLFormElement>) => {
+    const handlePayment = async (e /* : FormEvent<HTMLFormElement> */) => {
         e.preventDefault();
 
         if(!stripe || !elements) {
@@ -36,7 +36,7 @@ const PaymentForm = () => {
         const { paymentIntent: { client_secret } } = response; //destructuring client secret from paymentIntent object off response
 
         //type guard againt null type
-        const ifValidCard = (card: StripeCardElement | null): card is StripeCardElement => card !== null;
+        const ifValidCard = (card/* : StripeCardElement | null */)/* : card is StripeCardElement */ => card !== null;
         const cardDetails = elements.getElement(CardElement);
         if(!ifValidCard(cardDetails)) return;
 
@@ -44,7 +44,7 @@ const PaymentForm = () => {
             payment_method: {
                 card: cardDetails,
                 billing_details: {
-                    name: currentUser ? currentUser.displayName as string : 'Guest'
+                    name: currentUser ? currentUser.displayName /* as string  */: 'Guest'
                 }
             }
         });
