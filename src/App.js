@@ -5,7 +5,25 @@ import Authentication from './routes/authentication/authentication.component';
 import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
 
+import { useEffect } from "react";
+import { useDispatch } from 'react-redux';
+import { onAuthStateChangedListener, createUserDocfromAuth } from "./utils/firebase/firebase.utils";
+import { setCurrentUser } from './store/user/user.actions';
+
 const App = () => {
+  const dispatch = useDispatch();
+  
+  useEffect (() => { //globally provides user state changes
+    const unsubscribe = onAuthStateChangedListener((user) => {
+        if(user) {
+            createUserDocfromAuth(user);
+        }
+        dispatch(setCurrentUser(user))
+    });
+    return unsubscribe
+  }, [dispatch]); //runs once when component mounts b/c dispatch never changes
+
+
   return (
     <Routes>
       <Route path='/*' element={<NavBar />}>

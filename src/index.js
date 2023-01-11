@@ -5,8 +5,10 @@ import { BrowserRouter } from 'react-router-dom';
 
 import App from './App';
 
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+
 import { UserProvider } from './contexts/users.contexts';
-import { CategoriesProvider } from './contexts/categories.context'; 
 import { DropdownProvider } from './contexts/dropdown.context';
 import { CartProvider } from './contexts/cart.context';
 
@@ -14,14 +16,12 @@ import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from './utils/stripe/stripe.utils';
 
 import { GlobalStyles } from './global.styles';
-//import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <UserProvider>
-        <CategoriesProvider> {/* placed inside UserProvider so products can fetch user info */}
+    <Provider store = {store}> {/* a wrapping provider can access any child component but a child cannot access a parent */}
+      <BrowserRouter>
           <DropdownProvider>
             <CartProvider>
               <Elements stripe={stripePromise}>
@@ -30,8 +30,7 @@ root.render(
               </Elements>
             </CartProvider>
           </DropdownProvider>
-        </CategoriesProvider>
-      </UserProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );
